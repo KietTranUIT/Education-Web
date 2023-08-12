@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/assets/student/css/style.css">
+    </head>
+    <body>
+        <h1>Welcome to Sign Up Page!</h1>
+        <div>
+            <form onsubmit="submitForm(event)" method="post">
+                <label for="username">Username:</label> <br>
+                <input type="text" name="username" id="username"> <br>
+
+                <label for="password">Password:</label> <br>
+                <input type="password" name="password" id="password"> <br>
+
+                <label for="surname">Surname:</label> <br>
+                <input type="text" name="surname" id="surname"> <br>
+
+                <label for="name">Name:</label> <br>
+                <input type="text" name="name" id="name"> <br>
+
+                <label for="gender">Gender:</label>
+                <input type="radio" value="mail" id="mail" name="gender">
+                <label for="mail">Mail</label>
+
+                <input type="radio" value="femail" id="femail" name="gender">
+                <label for="femail">Femail</label>
+
+                <label for="date_of_birth">Day of birth:</label> <br>
+                <input type="date" name="date_of_birth" id="date_of_birth"> <br>
+
+                <label for="place_of_birth">Place of birth</label> <br>
+                <input type="text" name="place_of_birth" id="place_of_birth"> <br>
+
+                <input type="submit" value="Sign Up">
+            </form>
+        </div>
+    </body>
+    <script src="/assets/student/js/script.js"></script>
+</html>
