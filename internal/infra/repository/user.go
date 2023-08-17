@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+	"strings"
 	"user-service/internal/core/dto"
 	"user-service/internal/core/port/repository"
 
@@ -34,7 +35,7 @@ func (u UserRepository) InsertUserAccount(user dto.UserAccountDTO) error {
 	if err != nil {
 		fmt.Println(err.Error())
 
-		if err.Error() == duplicateEntryMsg {
+		if strings.Contains(err.Error(), duplicateEntryMsg) {
 			return repository.DuplicateUserAccount
 		}
 	}

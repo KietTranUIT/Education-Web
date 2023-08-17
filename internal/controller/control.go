@@ -23,8 +23,8 @@ func (u UserController) Router() {
 	fs := http.FileServer(http.Dir("assets"))
 	u.Mux.Handle("/assets/", http.StripPrefix("/assets/", fs))
 
-	u.Mux.HandleFunc("/student/signup", ReturnSignUpStudentPage)
+	//u.Mux.HandleFunc("/student/signup", ReturnSignUpStudentPage)
 
-	u.Mux.HandleFunc("/student/signup/sign_up_student", SignUp(u))
+	u.Mux.HandleFunc("/student/signup", SignUp(u))
 	u.Mux.HandleFunc("/student/login", ReturnLoginStudentPage)
 }

@@ -21,11 +21,11 @@ func NewUserService(userRepo repository.UserRepository) UserService {
 
 func (u UserService) SignUp(req request.SignUpRequest) *response.Response {
 	if req.Username == "" {
-		return u.CreateFailResponse(Error_Code.InvalidUsernameMsg)
+		return u.CreateFailResponse(Error_Code.InvalidUsernameMsg, Error_Code.InvalidRequest)
 	}
 
 	if req.Password == "" {
-		return u.CreateFailResponse(Error_Code.InvalidPasswordMsg)
+		return u.CreateFailResponse(Error_Code.InvalidPasswordMsg, Error_Code.InternalError)
 	}
 
 	// Insert the user account into database
@@ -37,11 +37,12 @@ func (u UserService) SignUp(req request.SignUpRequest) *response.Response {
 		Type:        1,
 	}
 	err_insertUser := u.userRepo.InsertUserAccount(user_account)
+
 	if err_insertUser != nil {
 		if err_insertUser == repository.DuplicateUserAccount {
-			return u.CreateFailResponse(Error_Code.DuplicateUserErrMsg)
+			return u.CreateFailResponse(Error_Code.DuplicateUserErrMsg, Error_Code.DuplicateUser)
 		}
-		return u.CreateFailResponse(Error_Code.InternalErrMsg)
+		return u.CreateFailResponse(Error_Code.InternalErrMsg, Error_Code.InternalError)
 	}
 
 	// Insert the infomation student account into database
@@ -56,9 +57,9 @@ func (u UserService) SignUp(req request.SignUpRequest) *response.Response {
 	err_insertStudent := u.userRepo.InsertStudent(student, req.Username)
 	if err_insertStudent != nil {
 		if err_insertStudent == repository.DuplicateStudent {
-			return u.CreateFailResponse(Error_Code.DuplicateStudentErrMsg)
+			return u.CreateFailResponse(Error_Code.DuplicateStudentErrMsg, Error_Code.DuplicateUser)
 		}
-		return u.CreateFailResponse(Error_Code.InternalErrMsg)
+		return u.CreateFailResponse(Error_Code.InternalErrMsg, Error_Code.InternalError)
 	}
 
 	rep := response.SignUpResponse{
@@ -68,10 +69,10 @@ func (u UserService) SignUp(req request.SignUpRequest) *response.Response {
 }
 
 // Create a Fail Response
-func (u UserService) CreateFailResponse(message string) *response.Response {
+func (u UserService) CreateFailResponse(message string, err Error_Code.ErrorCode) *response.Response {
 	return &response.Response{
 		Status:     false,
-		Error_code: Error_Code.InvalidRequest,
+		Error_code: err,
 		Error_msg:  message,
 	}
 }
